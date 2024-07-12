@@ -10,6 +10,11 @@ def get_filters():
     """
     Asks user to specify a city, month, and day to analyze.
 
+    This function prompts the user to input their choice of city (from Chicago, New York City, and Washington),
+    month (from January to December or "all" for no filter), and day of the week (Monday to Sunday or "all" for no filter).
+    It uses a while loop to manage invalid inputs, ensuring that the user's choices are valid before proceeding.
+
+    
     Returns:
         (str) city - name of the city to analyze
         (str) month - name of the month to filter by, or "all" to apply no month filter
@@ -40,6 +45,10 @@ def load_data(city, month, day):
     """
     Loads data for the specified city and filters by month and day if applicable.
 
+    This function reads the city data file into a pandas DataFrame and applies filtering based on the specified month and day.
+    It supports filtering by a specific month, a specific day of the week, both, or neither, allowing for a flexible analysis of the data.
+
+    
     Args:
         (str) city - name of the city to analyze
         (str) month - name of the month to filter by, or "all" to apply no month filter
@@ -75,7 +84,19 @@ def load_data(city, month, day):
 
 
 def time_stats(df):
-    """Displays statistics on the most frequent times of travel."""
+    """
+    Displays statistics on the most frequent times of travel.
+
+    This function calculates and prints the most common month, day of the week, and start hour for trips in the dataset.
+    It leverages the pandas mode() function to find the most frequent values in the 'month', 'day_of_week', and 'hour' columns.
+    The start hour is extracted from the 'Start Time' column, which is assumed to be in datetime format.
+
+    Args:
+        df (pandas.DataFrame): The DataFrame containing the bikeshare data.
+
+    Prints:
+        The most popular month, day of the week, and start hour for trips in the dataset.
+    """
 
     print('\nCalculating The Most Frequent Times of Travel...\n')
     start_time = time.time()
@@ -98,7 +119,19 @@ def time_stats(df):
 
 
 def station_stats(df):
-    """Displays statistics on the most popular stations and trip."""
+    """
+    Displays statistics on the most popular stations and trip.
+
+    This function calculates and prints the most commonly used start station, end station, and the most frequent combination
+    of start and end stations for trips in the dataset. It uses the mode() function to identify these popular stations and
+    combinations, and constructs a new 'Start End Station' column to facilitate the calculation of the most popular trip.
+
+    Args:
+        df (pandas.DataFrame): The DataFrame containing the bikeshare data.
+
+    Prints:
+        The most popular start station, end station, and combination of start and end stations for trips in the dataset.
+    """
 
     print('\nCalculating The Most Popular Stations and Trip...\n')
     start_time = time.time()
@@ -121,7 +154,18 @@ def station_stats(df):
 
 
 def trip_duration_stats(df):
-    """Displays statistics on the total and average trip duration."""
+    """
+    Displays statistics on the total and average trip duration.
+
+    This function calculates the total travel time and the average travel time for trips in the dataset using the 'Trip Duration' column.
+    It then converts these durations from seconds into more readable formats (hours, minutes, and seconds) for display.
+
+    Args:
+        df (pandas.DataFrame): The DataFrame containing the bikeshare data.
+
+    Prints:
+        The total travel time and the average travel time for trips, formatted in hours, minutes, and seconds.
+    """
 
     print('\nCalculating Trip Duration...\n')
     start_time = time.time()
@@ -139,7 +183,21 @@ def trip_duration_stats(df):
 
 
 def user_stats(df):
-    """Displays statistics on bikeshare users."""
+    """
+    Displays statistics on bikeshare users.
+
+    This function calculates and prints counts of user types, gender distribution, and the earliest, most recent, and most common
+    years of birth among users. It handles datasets with missing 'Gender' or 'Birth Year' columns by skipping these calculations
+    if the columns are not present.
+
+    Args:
+        df (pandas.DataFrame): The DataFrame containing the bikeshare data.
+
+    Prints:
+        Counts of user types (Subscriber, Customer).
+        Gender distribution (Male, Female) if gender data is available.
+        The earliest (oldest), most recent (youngest), and most common year of birth among users if birth year data is available.
+    """
 
     print('\nCalculating User Stats...\n')
     start_time = time.time()
@@ -167,7 +225,22 @@ def user_stats(df):
 
 
 def display_raw_data(df):
-    """Displays 5 lines of raw data upon user request."""
+    """
+    Displays raw data to the user upon request.
+
+    This function iteratively prompts the user to decide if they want to see 5 lines of raw data from the dataset at a time.
+    It continues to display the next 5 lines of data upon each "yes" response until the user responds with a "no" or until all
+    data has been displayed. The function ensures user input is validated for a clear yes/no response to continue or stop
+    displaying raw data.
+
+    Args:
+        df (pandas.DataFrame): The DataFrame containing the bikeshare data.
+
+    Behavior:
+        Iteratively displays 5 rows of raw data from the DataFrame on each iteration, based on user input.
+        Continues until the user inputs 'no' or all data rows have been displayed.
+    """
+    
     print('\nWould you like to see raw data? Enter yes or no.')
     start_loc = 0
     while True:
