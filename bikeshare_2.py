@@ -1,6 +1,5 @@
 import time
 import pandas as pd
-import numpy as np
 
 CITY_DATA = { 'chicago': 'chicago.csv',
               'new york city': 'new_york_city.csv',
@@ -21,22 +20,27 @@ def get_filters():
         (str) day - name of the day of week to filter by, or "all" to apply no day filter
     """
     print('Hello! Let\'s explore some US bikeshare data!')
+    
     # get user input for city (chicago, new york city, washington). HINT: Use a while loop to handle invalid inputs
-    city = input("Enter the city name: ").lower()
-    while city not in ['chicago', 'new york city', 'washington']:
-        city = input("Invalid city name. Please enter the city name again: ").lower()
+    city = input("Enter the city name (Chicago, New York City, Washington): ").lower()
+    while city not in CITY_DATA.keys():
+        print("Invalid city name.")
+        city = input("Please enter the city name again: ").lower()
 
     # get user input for month (all, january, february, ... , june)
-    month = input("Enter the month name: ").lower()
-    while month not in ['all', 'january', 'february', 'march', 'april', 'may', 'june',
-                        'july', 'august', 'september', 'october', 'november', 'december']:
-        month = input("Invalid month name. Please enter the month name again: ").lower()
+    months = ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december', 'all']
+    month = input("Enter the month name to filter by, or 'all' for no filter: ").lower()
+    while month not in months:
+        print("Invalid month name.")
+        month = input("Please enter the month name again: ").lower()
 
     # get user input for day of week (all, monday, tuesday, ... sunday)
-    day = input("Enter the day of the week: ").lower()
-    while day not in ['all', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']:
-        day = input("Invalid day of the week. Please enter the day of the week again: ").lower()
-
+    days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday', 'all']
+    day = input("Enter the day of the week to filter by, or 'all' for no filter: ").lower()
+    while day not in days:
+        print("Invalid day of the week.")
+        day = input("Please enter the day of the week again: ").lower()
+        
     print('-'*40)
     return city, month, day
 
@@ -102,7 +106,11 @@ def time_stats(df):
     start_time = time.time()
 
     # display the most common month
-    popular_month = df['month'].mode()[0]
+    months = ['January', 'February', 'March', 'April', 'May', 'June',
+              'July', 'August', 'September', 'October', 'November', 'December']
+    # Subtract 1 because the list is zero indexed but months are 1 indexed
+    popular_month_index = df['month'].mode()[0] - 1
+    popular_month = months[popular_month_index]
     print('Most Popular Month:', popular_month)
 
     # display the most common day of week
@@ -110,11 +118,10 @@ def time_stats(df):
     print('Most Popular Day:', popular_day)
 
     # display the most common start hour
-    df['hour'] = df['Start Time'].dt.hour
-    popular_hour = df['hour'].mode()[0]
+    popular_hour = df['Start Time'].dt.hour.mode()[0]
     print('Most Popular Start Hour:', popular_hour)
 
-    print("\nThis took %s seconds." % (time.time() - start_time))
+    print(f"\nThis took {time.time() - start_time} seconds.")
     print('-'*40)
 
 
@@ -149,7 +156,7 @@ def station_stats(df):
     popular_start_end_station = df['Start End Station'].mode()[0]
     print('Most Popular Start End Station:', popular_start_end_station)
 
-    print("\nThis took %s seconds." % (time.time() - start_time))
+    print(f"\nThis took {time.time() - start_time} seconds.")
     print('-'*40)
 
 
@@ -178,7 +185,7 @@ def trip_duration_stats(df):
     mean_travel_time = df['Trip Duration'].mean()
     print('Mean Travel Time:', mean_travel_time)
 
-    print("\nThis took %s seconds." % (time.time() - start_time))
+    print(f"\nThis took {time.time() - start_time} seconds.")
     print('-'*40)
 
 
@@ -220,7 +227,7 @@ def user_stats(df):
     most_common_birth_year = df['Birth Year'].mode()[0]
     print('Most Common Birth Year:', most_common_birth_year)
 
-    print("\nThis took %s seconds." % (time.time() - start_time))
+    print(f"\nThis took {time.time() - start_time} seconds.")
     print('-'*40)
 
 
